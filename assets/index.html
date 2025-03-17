@@ -1,0 +1,82 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Familial</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <h1>Espace Familial</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="profile.html">Mon Profil</a></li>
+                <li><a href="gallery.html">Galerie</a></li>
+                <li><a href="family-wall.html">Mur Familial</a></li>
+                <li><a href="calendar.html">Calendrier</a></li>
+            </ul>
+            <div class="user-menu">
+                <div class="user-info">
+                    <img id="user-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                    <span id="user-name">Chargement...</span>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="home-container">
+            <div class="welcome-section">
+                <h2>Bienvenue dans votre espace familial</h2>
+                <p>Partagez, organisez et restez connecté avec votre famille.</p>
+            </div>
+            
+            <div class="family-members">
+                <h3>Membres de la famille</h3>
+                <ul id="family-members-list" class="members-grid"></ul>
+            </div>
+            
+            <div class="home-sections">
+                <div class="home-section">
+                    <h3>Photos récentes</h3>
+                    <div id="recent-photos" class="photos-preview"></div>
+                    <a href="gallery.html" class="btn btn-primary">Voir toutes les photos</a>
+                </div>
+                
+                <div class="home-section">
+                    <h3>Dernières publications</h3>
+                    <div id="recent-posts" class="posts-preview"></div>
+                    <a href="family-wall.html" class="btn btn-primary">Voir toutes les publications</a>
+                </div>
+                
+                <div class="home-section">
+                    <h3>Événements à venir</h3>
+                    <div id="upcoming-events" class="events-preview"></div>
+                    <a href="calendar.html" class="btn btn-primary">Voir le calendrier</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Espace Familial</p>
+    </footer>
+
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Scripts de l'application -->
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/index.js"></script>
+</body>
+</html>

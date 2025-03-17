@@ -1,0 +1,29 @@
+projet-espace-familial/
+├── index.html (deja implémenté)
+├── login.html (deja implémenté)
+├── profile.html (deja implémenté)
+├── gallery.html (deja implémenté)
+├── family-wall.html (deja implémenté)
+├── calendar.html (deja implémenté)
+├── assets/
+│   ├── css/
+│   │   ├── styles.css 
+│   │   ├── login.css
+│   │   ├── profile.css
+│   │   ├── gallery.css
+│   │   ├── family-wall.css
+│   │   └── calendar.css (deja implémenté)
+│   ├── js/
+│   │   ├── auth.js (deja implémenté)
+│   │   ├── firebase-config.js (deja implémenté)
+│   │   ├── profile.js (deja implémenté)
+│   │   ├── gallery.js (pas encore)
+│   │   ├── family-wall.js  (pas encore)
+│   │   ├── calendar.js (pas encore)
+│   │   └── shared.js (deja implémenté)
+│   └── img/
+│       └── logo.png
+└── lib/
+    ├── dropzone/
+    ├── lightbox/
+    └── fullcalendar/

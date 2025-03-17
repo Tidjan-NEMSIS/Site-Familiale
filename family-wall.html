@@ -1,0 +1,107 @@
+<!-- family-wall.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mur Familial - Espace Familial</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/family-wall.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <h1>Espace Familial</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="profile.html">Mon Profil</a></li>
+                <li><a href="gallery.html">Galerie</a></li>
+                <li><a href="family-wall.html" class="active">Mur Familial</a></li>
+                <li><a href="calendar.html">Calendrier</a></li>
+            </ul>
+            <div class="user-menu">
+                <div class="user-info">
+                    <img id="user-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                    <span id="user-name">Chargement...</span>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="family-wall-container">
+            <div class="create-post-container">
+                <div class="create-post-header">
+                    <img id="post-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                    <h3>Publier un message</h3>
+                </div>
+                <form id="post-form">
+                    <textarea id="post-content" placeholder="Quoi de neuf dans la famille ?" required></textarea>
+                    
+                    <div id="post-image-preview" class="post-image-preview hidden">
+                        <img id="preview-image" src="#" alt="Image à publier">
+                        <button type="button" id="remove-image-btn" class="btn btn-sm btn-danger">Supprimer l'image</button>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="post-attachments">
+                            <label for="post-image" class="attachment-btn">
+                                <i class="image-icon"></i> Photo
+                            </label>
+                            <input type="file" id="post-image" accept="image/*" hidden>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Publier</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="posts-filter">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="my-posts">Mes publications</button>
+                <button class="filter-btn" data-filter="with-images">Avec photos</button>
+            </div>
+            
+            <div id="posts-container">
+                <p class="loading-message">Chargement des publications...</p>
+            </div>
+            
+            <div id="load-more-container" class="load-more-container hidden">
+                <button id="load-more-btn" class="btn btn-secondary">Voir plus</button>
+            </div>
+        </div>
+        
+        <!-- Modal commentaires -->
+        <div id="comments-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Commentaires</h3>
+                <div id="comments-container" class="comments-container"></div>
+                <form id="comment-form">
+                    <div class="form-group">
+                        <textarea id="comment-content" placeholder="Ajouter un commentaire..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Commenter</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Espace Familial</p>
+    </footer>
+
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Scripts de l'application -->
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/family-wall.js"></script>
+</body>
+</html>

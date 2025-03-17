@@ -1,0 +1,87 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Familial - Connexion</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-container">
+            <h1>Espace Familial</h1>
+            <div class="tabs">
+                <button id="login-tab" class="tab active">Connexion</button>
+                <button id="register-tab" class="tab">Inscription</button>
+            </div>
+            
+            <div id="login-form" class="auth-form">
+                <h2>Connexion</h2>
+                <form id="signin-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Mot de passe</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-family-code">Code familial</label>
+                        <input type="text" id="login-family-code" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </form>
+            </div>
+            
+            <div id="register-form" class="auth-form hidden">
+                <h2>Inscription</h2>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-name">Nom complet</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    <div class="form-group family-code-section">
+                        <div class="radio-group">
+                            <input type="radio" id="join-family" name="family-option" value="join" checked>
+                            <label for="join-family">Rejoindre une famille</label>
+                            <input type="radio" id="create-family" name="family-option" value="create">
+                            <label for="create-family">Créer une famille</label>
+                        </div>
+                        
+                        <div id="join-family-section">
+                            <label for="register-family-code">Code familial</label>
+                            <input type="text" id="register-family-code">
+                        </div>
+                        
+                        <div id="create-family-section" class="hidden">
+                            <label for="family-name">Nom de la famille</label>
+                            <input type="text" id="family-name">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Scripts de l'application -->
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/auth.js"></script>
+</body>
+</html>

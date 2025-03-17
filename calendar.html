@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier - Espace Familial</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/calendar.css">
+    <link rel="stylesheet" href="lib/fullcalendar/main.min.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <h1>Espace Familial</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="profile.html">Mon Profil</a></li>
+                <li><a href="gallery.html">Galerie</a></li>
+                <li><a href="family-wall.html">Mur Familial</a></li>
+                <li><a href="calendar.html" class="active">Calendrier</a></li>
+            </ul>
+            <div class="user-menu">
+                <div class="user-info">
+                    <img id="user-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                    <span id="user-name">Chargement...</span>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calendar-container">
+            <div class="calendar-header">
+                <h2>Calendrier Familial</h2>
+                <button id="add-event-btn" class="btn btn-primary">Ajouter un événement</button>
+            </div>
+            
+            <div class="calendar-wrapper">
+                <div id="family-calendar"></div>
+            </div>
+        </section>
+        
+        <!-- Modal pour ajouter/modifier un événement -->
+        <div id="event-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3 id="event-modal-title">Ajouter un événement</h3>
+                <form id="event-form">
+                    <div class="form-group">
+                        <label for="event-title">Titre</label>
+                        <input type="text" id="event-title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-description">Description</label>
+                        <textarea id="event-description" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-location">Lieu</label>
+                        <input type="text" id="event-location">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-start-date">Date de début</label>
+                            <input type="date" id="event-start-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event-start-time">Heure de début</label>
+                            <input type="time" id="event-start-time">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-end-date">Date de fin</label>
+                            <input type="date" id="event-end-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="event-end-time">Heure de fin</label>
+                            <input type="time" id="event-end-time">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-color">Couleur</label>
+                        <select id="event-color">
+                            <option value="#4285F4">Bleu</option>
+                            <option value="#EA4335">Rouge</option>
+                            <option value="#FBBC05">Jaune</option>
+                            <option value="#34A853">Vert</option>
+                            <option value="#8E24AA">Violet</option>
+                            <option value="#FF9800">Orange</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="event-all-day">
+                            <label for="event-all-day">Journée entière</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="event-notify">
+                            <label for="event-notify">Notifier tous les membres</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <button type="button" id="cancel-event-btn" class="btn btn-secondary">Annuler</button>
+                        <button type="button" id="delete-event-btn" class="btn btn-danger hidden">Supprimer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Modal de confirmation pour la suppression -->
+        <div id="confirm-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Confirmation</h3>
+                <p>Êtes-vous sûr de vouloir supprimer cet événement ?</p>
+                <div class="form-buttons">
+                    <button id="confirm-delete-btn" class="btn btn-danger">Supprimer</button>
+                    <button id="cancel-delete-btn" class="btn btn-secondary">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Espace Familial</p>
+    </footer>
+
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+    <!-- Scripts externes -->
+    <script src="lib/fullcalendar/main.min.js"></script>
+    <script src="lib/fullcalendar/locales/fr.js"></script>
+    
+    <!-- Scripts de l'application -->
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/calendar.js"></script>
+</body>
+</html>

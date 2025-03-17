@@ -1,0 +1,171 @@
+<!-- gallery.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie - Espace Familial</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/gallery.css">
+    <link rel="stylesheet" href="lib/lightbox/lightbox.min.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <h1>Espace Familial</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="profile.html">Mon Profil</a></li>
+                <li><a href="gallery.html" class="active">Galerie</a></li>
+                <li><a href="family-wall.html">Mur Familial</a></li>
+                <li><a href="calendar.html">Calendrier</a></li>
+            </ul>
+            <div class="user-menu">
+                <div class="user-info">
+                    <img id="user-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                    <span id="user-name">Chargement...</span>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="gallery-container">
+            <div class="gallery-header">
+                <h2>Galerie Familiale</h2>
+                <div class="gallery-controls">
+                    <div class="albums-dropdown">
+                        <label for="album-select">Album:</label>
+                        <select id="album-select">
+                            <option value="all" selected>Tous les albums</option>
+                        </select>
+                    </div>
+                    <div class="sort-controls">
+                        <label for="sort-select">Trier:</label>
+                        <select id="sort-select">
+                            <option value="date-desc" selected>Plus récent</option>
+                            <option value="date-asc">Plus ancien</option>
+                            <option value="likes-desc">Plus aimées</option>
+                        </select>
+                    </div>
+                    <button id="create-album-btn" class="btn btn-primary">Créer un album</button>
+                    <button id="upload-photos-btn" class="btn btn-primary">Ajouter des photos</button>
+                </div>
+            </div>
+
+            <div id="album-form-container" class="album-form-container hidden">
+                <h3>Créer un nouvel album</h3>
+                <form id="album-form">
+                    <div class="form-group">
+                        <label for="album-name">Nom de l'album</label>
+                        <input type="text" id="album-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="album-description">Description</label>
+                        <textarea id="album-description"></textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary">Créer</button>
+                        <button type="button" id="cancel-album-btn" class="btn btn-secondary">Annuler</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="upload-photos-container" class="upload-photos-container hidden">
+                <h3>Ajouter des photos</h3>
+                <div class="album-select-container">
+                    <label for="upload-album-select">Album:</label>
+                    <select id="upload-album-select">
+                        <option value="none">Aucun album</option>
+                    </select>
+                </div>
+                <form id="photos-upload" class="dropzone">
+                    <div class="dz-message" data-dz-message>
+                        <span>Déposez vos photos ici ou cliquez pour sélectionner</span>
+                    </div>
+                </form>
+                <div class="upload-controls">
+                    <button id="cancel-upload-btn" class="btn btn-secondary">Annuler</button>
+                </div>
+            </div>
+
+            <div id="gallery-content" class="gallery-content">
+                <div id="photos-grid" class="photos-grid">
+                    <p class="loading-message">Chargement des photos...</p>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button id="load-more-btn" class="btn btn-secondary hidden">Voir plus</button>
+            </div>
+        </section>
+
+        <!-- Modal de détail de photo -->
+        <div id="photo-detail-modal" class="modal hidden">
+            <div class="modal-content photo-detail-content">
+                <span class="close-btn">&times;</span>
+                <div class="photo-detail-container">
+                    <div class="photo-main">
+                        <img id="detail-photo-img" src="" alt="Photo">
+                    </div>
+                    <div class="photo-info">
+                        <h3 id="detail-photo-name"></h3>
+                        <div class="photo-metadata">
+                            <div class="photo-author">
+                                <img id="detail-author-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                                <span id="detail-author-name"></span>
+                            </div>
+                            <div class="photo-date" id="detail-photo-date"></div>
+                        </div>
+                        <div class="photo-album" id="detail-photo-album"></div>
+                        <div class="photo-actions">
+                            <button id="detail-like-btn" class="btn btn-icon">
+                                <span class="icon heart-icon"></span>
+                                <span id="detail-likes-count">0</span>
+                            </button>
+                            <button id="detail-download-btn" class="btn btn-icon">
+                                <span class="icon download-icon"></span>
+                                Télécharger
+                            </button>
+                            <button id="detail-delete-btn" class="btn btn-icon hidden">
+                                <span class="icon delete-icon"></span>
+                                Supprimer
+                            </button>
+                        </div>
+                        <div class="photo-comments">
+                            <h4>Commentaires</h4>
+                            <div id="detail-comments-list" class="comments-list"></div>
+                            <form id="comment-form" class="comment-form">
+                                <textarea id="comment-input" placeholder="Ajouter un commentaire..."></textarea>
+                                <button type="submit" class="btn btn-primary">Publier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Espace Familial</p>
+    </footer>
+
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Scripts externes -->
+    <script src="lib/lightbox/lightbox.min.js"></script>
+    <script src="lib/dropzone/dropzone.min.js"></script>
+    
+    <!-- Scripts de l'application -->
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/gallery.js"></script>
+</body>
+</html>

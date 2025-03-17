@@ -1,0 +1,160 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - Espace Familial</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/profile.css">
+    <link rel="stylesheet" href="lib/dropzone/dropzone.min.css">
+</head>
+<body>
+    <header>
+        <nav class="main-nav">
+            <div class="logo">
+                <h1>Espace Familial</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="profile.html" class="active">Mon Profil</a></li>
+                <li><a href="gallery.html">Galerie</a></li>
+                <li><a href="family-wall.html">Mur Familial</a></li>
+                <li><a href="calendar.html">Calendrier</a></li>
+            </ul>
+            <div class="user-menu">
+                <div class="user-info">
+                    <img id="user-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                    <span id="user-name">Chargement...</span>
+                </div>
+                <button id="logout-btn" class="btn btn-secondary">Déconnexion</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="profile-container">
+            <div class="profile-header">
+                <div id="profile-info" class="profile-info">
+                    <div class="profile-avatar-container">
+                        <img id="profile-avatar" src="assets/img/default-avatar.png" alt="Avatar">
+                        <div id="own-profile-controls" class="hidden">
+                            <button id="change-avatar-btn" class="btn btn-secondary">Modifier la photo</button>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <h2 id="profile-name">Chargement...</h2>
+                        <p id="profile-role" class="profile-role">Membre</p>
+                        <p id="profile-joined" class="profile-joined">Membre depuis: Chargement...</p>
+                        
+                        <div id="edit-profile-section" class="hidden">
+                            <button id="edit-profile-btn" class="btn btn-primary">Modifier le profil</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="edit-profile-form" class="edit-profile-form hidden">
+                    <h3>Modifier le profil</h3>
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label for="edit-name">Nom complet</label>
+                            <input type="text" id="edit-name" required>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="button" id="cancel-edit-btn" class="btn btn-secondary">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-tabs">
+                    <button class="tab-btn active" data-tab="files">Fichiers</button>
+                    <button class="tab-btn" data-tab="photos">Photos</button>
+                </div>
+                
+                <div id="files-tab" class="tab-content active">
+                    <div class="files-header">
+                        <h3>Mes Documents</h3>
+                        <div id="upload-controls">
+                            <button id="upload-file-btn" class="btn btn-primary">Ajouter un document</button>
+                        </div>
+                    </div>
+                    
+                    <div id="dropzone-container" class="hidden">
+                        <form id="document-upload" class="dropzone">
+                            <div class="dz-message" data-dz-message>
+                                <span>Déposez vos fichiers ici ou cliquez pour sélectionner</span>
+                            </div>
+                        </form>
+                        <div class="dropzone-controls">
+                            <button id="cancel-upload-btn" class="btn btn-secondary">Annuler</button>
+                        </div>
+                    </div>
+                    
+                    <div id="files-list" class="files-list">
+                        <p class="loading-message">Chargement des fichiers...</p>
+                    </div>
+                </div>
+                
+                <div id="photos-tab" class="tab-content">
+                    <div class="photos-header">
+                        <h3>Mes Photos</h3>
+                        <div id="upload-photo-controls">
+                            <button id="upload-photo-btn" class="btn btn-primary">Ajouter des photos</button>
+                        </div>
+                    </div>
+                    
+                    <div id="photo-dropzone-container" class="hidden">
+                        <form id="photo-upload" class="dropzone">
+                            <div class="dz-message" data-dz-message>
+                                <span>Déposez vos photos ici ou cliquez pour sélectionner</span>
+                            </div>
+                        </form>
+                        <div class="dropzone-controls">
+                            <button id="cancel-photo-upload-btn" class="btn btn-secondary">Annuler</button>
+                        </div>
+                    </div>
+                    
+                    <div id="photos-grid" class="photos-grid">
+                        <p class="loading-message">Chargement des photos...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Modal de changement d'avatar -->
+        <div id="avatar-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h3>Changer votre photo de profil</h3>
+                <form id="avatar-upload" class="dropzone">
+                    <div class="dz-message" data-dz-message>
+                        <span>Déposez une image ici ou cliquez pour sélectionner</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Espace Familial</p>
+    </footer>
+
+    <!-- Scripts Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    
+    <!-- Scripts externes -->
+    <script src="lib/dropzone/dropzone.min.js"></script>
+    
+    <!-- Scripts de l'application -->
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/shared.js"></script>
+    <script src="assets/js/profile.js"></script>
+</body>
+</html>
