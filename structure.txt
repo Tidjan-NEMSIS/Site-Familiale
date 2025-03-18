@@ -7,17 +7,17 @@ projet-espace-familial/
 ├── calendar.html (deja implémenté)
 ├── assets/
 │   ├── css/
-│   │   ├── styles.css 
-│   │   ├── login.css
-│   │   ├── profile.css
-│   │   ├── gallery.css
-│   │   ├── family-wall.css
+│   │   ├── styles.css  (deja implementé)
+│   │   ├── login.css  (deja implémenté)
+│   │   ├── profile.css  (deja implémenté)
+│   │   ├── gallery.css  (deja implémenté)
+│   │   ├── family-wall.css  (deja implémenté)
 │   │   └── calendar.css (deja implémenté)
 │   ├── js/
 │   │   ├── auth.js (deja implémenté)
 │   │   ├── firebase-config.js (deja implémenté)
 │   │   ├── profile.js (deja implémenté)
-│   │   ├── gallery.js (pas encore)
+│   │   ├── gallery.js (deja implementé)
 │   │   ├── family-wall.js  (pas encore)
 │   │   ├── calendar.js (pas encore)
 │   │   └── shared.js (deja implémenté)
@@ -27,3 +27,39 @@ projet-espace-familial/
     ├── dropzone/
     ├── lightbox/
     └── fullcalendar/
+
+**Contexte :**  
+Créer une application web familiale ("Espace Familial") où chaque membre a son propre profil. Les autres membres peuvent accéder à ces profils pour consulter les documents et photos partagés. Les fonctionnalités incluent :
+
+1. **Authentification et Profil :**
+   - Connexion via Firebase Authentication avec code familial.
+   - Profil personnel pour chaque membre avec documents et photos accessibles par la famille.
+
+2. **Partage de Fichiers :**
+   - Téléchargement de documents (PDF, Word, Excel) et photos (JPG, PNG) via glisser-déposer ou sélection de fichiers.
+   - Stockage dans Firebase Storage et métadonnées dans Firestore.
+
+3. **Galerie et Mur Familial :**
+   - Galerie centrale pour toutes les photos partagées, avec filtrage par album et likes en temps réel.
+   
+Mur Familial**
+   - Publication de texte + images
+   - Affichage chronologique des posts
+   - Réactions émoji simples (❤ like et commentaire avec un icone whatsapp qui mene vers le whatsapp du membre qui a publié)
+
+4. **Calendrier Familial :**
+   - Calendrier partagé pour ajouter et consulter des événements familiaux.
+
+5. **Sécurité :**
+   - Accès réservé aux membres de la famille via code familial.
+   - Règles Firestore et Storage pour empêcher l'accès non autorisé.
+
+6. **Technologies :**
+   - Frontend : HTML, CSS, JavaScript (vanilla).
+   - Backend : Firebase (Authentication, Firestore, Storage).
+   - Bibliothèques : Lightbox pour les images, Dropzone.js pour le glisser-déposer.
+
+**Exigences :**
+- Interface responsive et intuitive.
+- Mises à jour en temps réel avec Firestore.
+- Sécurité renforcée pour les fichiers et données.

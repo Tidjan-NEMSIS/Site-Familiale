@@ -167,9 +167,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Vérification de l'état d'authentification
     auth.onAuthStateChanged(function(user) {
-        if (user && window.location.pathname.includes('login.html')) {
-            window.location.href = 'index.html';
-        }
+        // if (user && window.location.pathname.includes('login.html')) {
+        //     window.location.href = 'index.html';
+        // }
     });
     
     // Fonction pour générer un code familial unique

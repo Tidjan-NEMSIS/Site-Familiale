@@ -1,0 +1,295 @@
+/* profile.css - Styles pour la page de profil utilisateur */
+
+/* Structure principale du profil */
+.profile-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* En-tête du profil */
+.profile-header {
+    padding: 2rem;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.profile-avatar-container {
+    position: relative;
+}
+
+#profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+#own-profile-controls {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.profile-details {
+    flex: 1;
+}
+
+.profile-details h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    color: #2c3e50;
+}
+
+.profile-role {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-bottom: 0.5rem;
+}
+
+.profile-joined {
+    font-size: 0.9rem;
+    color: #95a5a6;
+    margin-bottom: 1rem;
+}
+
+/* Formulaire d'édition de profil */
+.edit-profile-form {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.edit-profile-form h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+/* Contenu du profil et onglets */
+.profile-content {
+    padding: 2rem;
+}
+
+.profile-tabs {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    color: #7f8c8d;
+    cursor: pointer;
+    position: relative;
+}
+
+.tab-btn.active {
+    color: #3498db;
+    font-weight: 600;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #3498db;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Section des fichiers */
+.files-header,
+.photos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.files-header h3,
+.photos-header h3 {
+    margin: 0;
+    color: #2c3e50;
+}
+
+.files-list {
+    margin-top: 1rem;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.file-item:hover {
+    background-color: #e9ecef;
+}
+
+.file-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #dfe6e9;
+    border-radius: 4px;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.file-metadata {
+    display: flex;
+    font-size: 0.8rem;
+    color: #7f8c8d;
+}
+
+.file-metadata span {
+    margin-right: 1rem;
+}
+
+.file-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Section des photos */
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.photo-item {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 1 / 1;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.photo-item:hover img {
+    transform: scale(1.05);
+}
+
+.photo-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+    padding: 1rem;
+    color: #fff;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.photo-item:hover .photo-overlay {
+    opacity: 1;
+}
+
+/* Dropzone pour téléchargement de fichiers */
+.dropzone {
+    border: 2px dashed #3498db;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #f8f9fa;
+    margin-bottom: 1rem;
+}
+
+.dropzone .dz-message {
+    color: #7f8c8d;
+}
+
+.dropzone-controls {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* Modal pour changement d'avatar */
+#avatar-modal .modal-content {
+    max-width: 500px;
+}
+
+#avatar-upload {
+    margin-top: 1rem;
+}
+
+/* État de chargement */
+.loading-message {
+    text-align: center;
+    padding: 2rem;
+    color: #7f8c8d;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .profile-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .profile-avatar-container {
+        margin-bottom: 1.5rem;
+    }
+    
+    .profile-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .photos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+/* Helpers */
+.hidden {
+    display: none !important;
+}

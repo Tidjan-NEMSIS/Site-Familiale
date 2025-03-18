@@ -1,0 +1,181 @@
+/* assets/css/login.css */
+
+/* Structure principale de la page de connexion */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+    padding: 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    padding: 32px;
+}
+
+.auth-container h1 {
+    text-align: center;
+    margin-bottom: 24px;
+    color: #3b5998;
+    font-size: 28px;
+}
+
+/* Onglets de navigation */
+.tabs {
+    display: flex;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.tab {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    color: #3b5998;
+    border-bottom: 2px solid #3b5998;
+}
+
+.tab:hover:not(.active) {
+    color: #4267b2;
+    background-color: #f8f9fa;
+}
+
+/* Formulaires */
+.auth-form {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.auth-form.hidden {
+    display: none;
+}
+
+.auth-form h2 {
+    margin-bottom: 24px;
+    font-size: 20px;
+    color: #343a40;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #4267b2;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(66, 103, 178, 0.15);
+}
+
+/* Section du code familial */
+.family-code-section {
+    border-top: 1px solid #e1e4e8;
+    padding-top: 16px;
+    margin-top: 16px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 8px;
+}
+
+#join-family-section,
+#create-family-section {
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+    overflow: hidden;
+}
+
+#join-family-section.hidden,
+#create-family-section.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    display: none;
+}
+
+/* Boutons */
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 12px 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: #3b5998;
+}
+
+.btn-primary:hover {
+    background-color: #4267b2;
+    border-color: #4267b2;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .auth-container {
+        padding: 24px 16px;
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+}

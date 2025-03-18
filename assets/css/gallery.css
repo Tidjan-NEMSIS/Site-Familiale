@@ -1,0 +1,335 @@
+/* gallery.css - Styles pour la galerie de photos familiale */
+
+/* Structure principale de la galerie */
+.gallery-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* En-tête de la galerie avec contrôles */
+.gallery-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+@media (min-width: 768px) {
+    .gallery-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.gallery-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+    .gallery-controls {
+        margin-top: 0;
+    }
+}
+
+/* Contrôles de sélection et de tri */
+.albums-dropdown, .sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.albums-dropdown select, .sort-controls select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+}
+
+/* Grille de photos */
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.photo-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: translateY(-5px);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-item:hover .photo-info {
+    opacity: 1;
+}
+
+.photo-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+}
+
+.photo-actions .btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* Formulaire de création d'album */
+.album-form-container {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.album-form-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.album-form-container .form-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Container pour télécharger des photos */
+.upload-photos-container {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.upload-photos-container h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.album-select-container {
+    margin-bottom: 15px;
+}
+
+.dropzone {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+
+.dropzone:hover {
+    border-color: #2196F3;
+}
+
+.upload-controls {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+/* Modal détail photo */
+.photo-detail-content {
+    width: 90%;
+    max-width: 1000px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.photo-detail-container {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .photo-detail-container {
+        flex-direction: row;
+        height: 80vh;
+    }
+}
+
+.photo-main {
+    flex: 2;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-main img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.photo-info {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    position: relative;
+    opacity: 1;
+    overflow-y: auto;
+}
+
+.photo-metadata {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.photo-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.photo-author img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.photo-album {
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.photo-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    position: static;
+}
+
+.photo-comments h4 {
+    margin-bottom: 10px;
+}
+
+.comments-list {
+    margin-bottom: 15px;
+}
+
+.comment-item {
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.comment-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.comment-form button {
+    align-self: flex-end;
+}
+
+/* Lightbox personnalisé */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Utilitaires */
+.hidden {
+    display: none !important;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 20px;
+    color: #757575;
+}
