@@ -18,7 +18,7 @@ projet-espace-familial/
 │   │   ├── firebase-config.js (deja implémenté)
 │   │   ├── profile.js (deja implémenté)
 │   │   ├── gallery.js (deja implementé)
-│   │   ├── family-wall.js  (pas encore)
+│   │   ├── family-wall.js  (deja implementé)
 │   │   ├── calendar.js (pas encore)
 │   │   └── shared.js (deja implémenté)
 │   └── img/

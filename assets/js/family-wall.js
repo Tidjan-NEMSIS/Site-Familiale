@@ -1,4 +1,3 @@
-
 // assets/js/family-wall.js
 
 // Variables globales pour la gestion des posts
@@ -385,3 +384,365 @@ async function toggleLike(postId) {
                 likes: firebase.firestore.FieldValue.arrayRemove(currentUser.uid)
             });
         } else {
+            // Ajouter le j'aime
+            await postRef.update({
+                likes: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+            });
+        }
+
+        // Mettre à jour l'élément de post dans le DOM
+        const postElement = document.querySelector(`.post-item[data-post-id="${postId}"]`);
+        if (postElement) {
+            const likeBtn = postElement.querySelector('.like-btn');
+            const likeStats = postElement.querySelector('.like-stats');
+            
+            // Mettre à jour le bouton "J'aime"
+            if (userLiked) {
+                likeBtn.classList.remove('liked');
+            } else {
+                likeBtn.classList.add('liked');
+            }
+            
+            // Mettre à jour le nombre de likes
+            const newLikesCount = userLiked ? likes.length - 1 : likes.length + 1;
+            likeStats.innerHTML = newLikesCount > 0 ? `<span>${newLikesCount} j'aime</span>` : '';
+        }
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour du j\'aime:', error);
+        showNotification('Une erreur est survenue', 'error');
+    }
+}
+
+// Confirmation avant suppression d'un post
+function confirmDeletePost(postId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette publication ?')) {
+        deletePost(postId);
+    }
+}
+
+// Suppression d'un post
+async function deletePost(postId) {
+    try {
+        const postRef = db.collection('families').doc(familyId).collection('posts').doc(postId);
+        const postDoc = await postRef.get();
+        
+        if (!postDoc.exists) {
+            console.error('Post non trouvé');
+            return;
+        }
+        
+        const postData = postDoc.data();
+        
+        // Vérifier si le post appartient à l'utilisateur actuel
+        if (postData.authorId !== currentUser.uid) {
+            showNotification('Vous n\'avez pas les droits pour supprimer cette publication', 'error');
+            return;
+        }
+        
+        // Supprimer l'image si elle existe
+        if (postData.imageUrl) {
+            const imageRef = storage.refFromURL(postData.imageUrl);
+            await imageRef.delete();
+        }
+        
+        // Supprimer les commentaires liés au post
+        const commentsRef = db.collection('families').doc(familyId).collection('posts').doc(postId).collection('comments');
+        const commentsSnapshot = await commentsRef.get();
+        
+        // Supprimer chaque commentaire individuellement
+        const batch = db.batch();
+        commentsSnapshot.forEach(doc => {
+            batch.delete(doc.ref);
+        });
+        await batch.commit();
+        
+        // Supprimer le post
+        await postRef.delete();
+        
+        // Supprimer l'élément du DOM
+        const postElement = document.querySelector(`.post-item[data-post-id="${postId}"]`);
+        if (postElement) {
+            postElement.remove();
+        }
+        
+        showNotification('Publication supprimée avec succès', 'success');
+        
+    } catch (error) {
+        console.error('Erreur lors de la suppression du post:', error);
+        showNotification('Une erreur est survenue lors de la suppression', 'error');
+    }
+}
+
+// Ouverture de la modal des commentaires
+async function openCommentsModal(postId) {
+    try {
+        currentPostId = postId;
+        const commentsModal = document.getElementById('comments-modal');
+        const commentsContainer = document.getElementById('comments-container');
+        
+        // Afficher un message de chargement
+        commentsContainer.innerHTML = '<p class="loading-message">Chargement des commentaires...</p>';
+        
+        // Afficher la modal
+        commentsModal.classList.remove('hidden');
+        
+        // Charger les commentaires
+        await loadComments(postId);
+        
+    } catch (error) {
+        console.error('Erreur lors de l\'ouverture de la modal des commentaires:', error);
+        showNotification('Une erreur est survenue', 'error');
+    }
+}
+
+// Chargement des commentaires
+async function loadComments(postId) {
+    try {
+        const commentsContainer = document.getElementById('comments-container');
+        
+        // Récupérer les commentaires depuis Firestore
+        const commentsRef = db.collection('families').doc(familyId)
+            .collection('posts').doc(postId)
+            .collection('comments')
+            .orderBy('createdAt', 'asc');
+        
+        const snapshot = await commentsRef.get();
+        
+        if (snapshot.empty) {
+            commentsContainer.innerHTML = '<p class="no-comments-message">Aucun commentaire pour le moment</p>';
+            return;
+        }
+        
+        // Vider le conteneur des commentaires
+        commentsContainer.innerHTML = '';
+        
+        // Cache pour les informations des membres
+        const membersCache = {};
+        
+        // Afficher les commentaires
+        for (const doc of snapshot.docs) {
+            const comment = doc.data();
+            
+            // Récupérer les informations de l'auteur si pas déjà en cache
+            if (!membersCache[comment.authorId]) {
+                const authorDoc = await db.collection('families').doc(familyId).collection('members').doc(comment.authorId).get();
+                membersCache[comment.authorId] = authorDoc.exists ? authorDoc.data() : { fullName: 'Utilisateur inconnu' };
+            }
+            
+            // Ajout du commentaire au DOM
+            const author = membersCache[comment.authorId];
+            renderComment(doc.id, comment, author);
+        }
+        
+    } catch (error) {
+        console.error('Erreur lors du chargement des commentaires:', error);
+        document.getElementById('comments-container').innerHTML = '<p class="error-message">Une erreur est survenue lors du chargement des commentaires</p>';
+    }
+}
+
+// Rendu d'un commentaire individuel
+function renderComment(commentId, comment, author) {
+    const commentsContainer = document.getElementById('comments-container');
+    const commentElement = document.createElement('div');
+    commentElement.className = 'comment-item';
+    commentElement.dataset.commentId = commentId;
+    
+    commentElement.innerHTML = `
+        <div class="comment-header">
+            <img src="${author.profilePicture || 'assets/img/default-avatar.png'}" alt="${author.fullName}" class="comment-avatar">
+            <div>
+                <div class="comment-author">${author.fullName}</div>
+                <div class="comment-date">${formatDate(comment.createdAt)}</div>
+            </div>
+            ${comment.authorId === currentUser.uid ? `
+                <button class="btn btn-icon delete-comment-btn">
+                    <i class="delete-icon"></i>
+                </button>
+            ` : ''}
+        </div>
+        <div class="comment-content">
+            <p>${formatPostContent(comment.content)}</p>
+        </div>
+    `;
+    
+    commentsContainer.appendChild(commentElement);
+    
+    // Ajouter l'événement de suppression si c'est le commentaire de l'utilisateur actuel
+    if (comment.authorId === currentUser.uid) {
+        const deleteBtn = commentElement.querySelector('.delete-comment-btn');
+        deleteBtn.addEventListener('click', () => confirmDeleteComment(commentId));
+    }
+}
+
+// Gestion de la soumission d'un commentaire
+async function handleCommentSubmit(event) {
+    event.preventDefault();
+    
+    if (!currentPostId) {
+        showNotification('Une erreur est survenue', 'error');
+        return;
+    }
+    
+    const commentContent = document.getElementById('comment-content').value.trim();
+    
+    if (!commentContent) {
+        showNotification('Veuillez ajouter un commentaire', 'error');
+        return;
+    }
+    
+    try {
+        // Désactiver le bouton d'envoi
+        const submitButton = event.target.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerText = 'Envoi en cours...';
+        
+        // Création du commentaire dans Firestore
+        const commentData = {
+            authorId: currentUser.uid,
+            content: commentContent,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        
+        // Ajout du commentaire à Firestore
+        await db.collection('families').doc(familyId)
+            .collection('posts').doc(currentPostId)
+            .collection('comments').add(commentData);
+        
+        // Incrémenter le compteur de commentaires du post
+        await db.collection('families').doc(familyId)
+            .collection('posts').doc(currentPostId)
+            .update({
+                commentCount: firebase.firestore.FieldValue.increment(1)
+            });
+        
+        // Réinitialisation du formulaire
+        document.getElementById('comment-form').reset();
+        
+        // Rechargement des commentaires
+        await loadComments(currentPostId);
+        
+        // Mettre à jour le compteur de commentaires dans le DOM
+        updateCommentCount(currentPostId);
+        
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout du commentaire:', error);
+        showNotification('Une erreur est survenue lors de l\'envoi du commentaire', 'error');
+    } finally {
+        // Réactiver le bouton d'envoi
+        const submitButton = event.target.querySelector('button[type="submit"]');
+        submitButton.disabled = false;
+        submitButton.innerText = 'Commenter';
+    }
+}
+
+// Mise à jour du compteur de commentaires dans le DOM
+async function updateCommentCount(postId) {
+    try {
+        const postRef = db.collection('families').doc(familyId).collection('posts').doc(postId);
+        const postDoc = await postRef.get();
+        
+        if (!postDoc.exists) return;
+        
+        const postData = postDoc.data();
+        const commentsCount = postData.commentCount || 0;
+        
+        // Mettre à jour le compteur dans le DOM
+        const postElement = document.querySelector(`.post-item[data-post-id="${postId}"]`);
+        if (postElement) {
+            const commentStats = postElement.querySelector('.comment-stats');
+            commentStats.innerHTML = commentsCount > 0 ? `<span>${commentsCount} commentaire${commentsCount > 1 ? 's' : ''}</span>` : '';
+        }
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour du compteur de commentaires:', error);
+    }
+}
+
+// Confirmation avant suppression d'un commentaire
+function confirmDeleteComment(commentId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')) {
+        deleteComment(commentId);
+    }
+}
+
+// Suppression d'un commentaire
+async function deleteComment(commentId) {
+    try {
+        if (!currentPostId) return;
+        
+        // Supprimer le commentaire de Firestore
+        await db.collection('families').doc(familyId)
+            .collection('posts').doc(currentPostId)
+            .collection('comments').doc(commentId).delete();
+        
+        // Décrémenter le compteur de commentaires du post
+        await db.collection('families').doc(familyId)
+            .collection('posts').doc(currentPostId)
+            .update({
+                commentCount: firebase.firestore.FieldValue.increment(-1)
+            });
+        
+        // Supprimer l'élément du DOM
+        const commentElement = document.querySelector(`.comment-item[data-comment-id="${commentId}"]`);
+        if (commentElement) {
+            commentElement.remove();
+        }
+        
+        // Mettre à jour le compteur de commentaires dans le DOM
+        updateCommentCount(currentPostId);
+        
+        // Afficher un message si plus aucun commentaire
+        const commentsContainer = document.getElementById('comments-container');
+        if (commentsContainer.children.length === 0) {
+            commentsContainer.innerHTML = '<p class="no-comments-message">Aucun commentaire pour le moment</p>';
+        }
+        
+        showNotification('Commentaire supprimé avec succès', 'success');
+        
+    } catch (error) {
+        console.error('Erreur lors de la suppression du commentaire:', error);
+        showNotification('Une erreur est survenue lors de la suppression', 'error');
+    }
+}
+
+// Fermeture de la modal
+function closeModal(modal) {
+    modal.classList.add('hidden');
+    currentPostId = null;
+}
+
+// Formater la date pour l'affichage
+function formatDate(timestamp) {
+    if (!timestamp) return 'Date inconnue';
+    
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) {
+        // Aujourd'hui, afficher l'heure
+        return `Aujourd'hui à ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    } else if (diffDays === 1) {
+        // Hier
+        return `Hier à ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    } else if (diffDays < 7) {
+        // Cette semaine
+        const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        return `${days[date.getDay()]} à ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    } else {
+        // Date complète
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()} à ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
+}
+
+// Affichage des notifications
+function showNotification(message, type = 'info') {
+    // Cette fonction est supposée être définie dans shared.js
+    if (typeof window.showNotification === 'function') {
+        window.showNotification(message, type);
+    } else {
+        // Fallback si la fonction n'est pas disponible
+        console.log(`Notification (${type}): ${message}`);
+        alert(message);
+    }
+}
